@@ -6,14 +6,14 @@ from django.utils.translation import gettext_lazy
 
 class AccountManager(BaseUserManager):
 
-    def create_user(self, email, user_name, password):
+    def create_user(self, email, user_name, password, is_superuser=False):
         
         if not email:
             raise ValueError(gettext_lazy('ERROR: You must provide an email address.'))
         email = self.normalize_email(email)
         
         user = self.model(email=email, user_name=user_name)
-
+        user.set_is_superuser(is_superuser)
         user.set_password(password)
         user.save()
 
