@@ -5,5 +5,7 @@ urlpatterns = [
     path('top250TV/', views.getTop250TV),
     path('trending-tv/', views.getTrendingTV),
     path('actor/<str:actor_name>/', views.getActorByName),
-    path('movies/<str:actor_name>/', views.getMoviesByActor)
+    path('actor/<str:actor_name>/all', views.getCreditsByActor),
+    path('actor/<str:actor_name>/movies', views.getMoviesByActor),
+    path('actor/<str:actor_name>/tv', views.getTvShowsByActor),
 ]

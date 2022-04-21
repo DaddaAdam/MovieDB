@@ -6,6 +6,18 @@ import requests
 
 # Create your views here.
 
+def convertNameToId(actor_name):
+
+    actor_name = slugify(actor_name)
+
+    url = f"https://api.themoviedb.org/3/search/person?api_key={API_KEY}&language=en-US&query={actor_name}&include_adult=false"
+
+    response = requests.request("GET", url=url, headers={}, data={})
+
+    actor_id= response.json()['results'][0]['id']
+
+    return actor_id
+
 @api_view(['GET'])
 def getTop250TV(request): 
     url = "https://imdb-api.com/en/API/Top250TVs/k_w2ktz9yi"
@@ -38,19 +50,36 @@ def getActorByName(request, actor_name):
     return Response(response.json())
 
 @api_view(['GET'])
-def getMoviesByActor(request, actor_name):
+def getCreditsByActor(request, actor_name):
 
-    actor_name = slugify(actor_name)
-
-    url = f"https://api.themoviedb.org/3/search/person?api_key={API_KEY}&language=en-US&query={actor_name}&include_adult=false"
-
-    response = requests.request("GET", url=url, headers={}, data={})
-
-    actor_id = response.json()['results'][0]['id']
+    actor_id = convertNameToId(actor_name=actor_name)
 
     print(actor_id)
 
-    url = f"https://api.themoviedb.org/3/person/{actor_id}/combined_credits?api_key={API_KEY}&language=en-US"
+    url = f"https://api.themoviedb.org/3/person/{actor_id}/combined_credits?sort_by=popularity.desc&api_key={API_KEY}&language=en-US"
+
+    response = requests.request("GET", url=url, headers={}, data={})
+
+    return Response(response.json())
+
+@api_view(['GET'])
+def getMoviesByActor(request, actor_name):
+
+    actor_id = convertNameToId(actor_name)
+
+    url = f"https://api.themoviedb.org/3/person/{actor_id}/movie_credits?sort_by=popularity.desc&api_key={API_KEY}&language=en-US"
+
+    response = requests.request("GET", url=url, headers={}, data={})
+
+    return Response(response.json())
+
+
+@api_view(['GET'])
+def getTvShowsByActor(request, actor_name):
+
+    actor_id = convertNameToId(actor_name)
+
+    url = f"https://api.themoviedb.org/3/person/{actor_id}/tv_credits?sort_by=popularity.desc&api_key={API_KEY}&language=en-US"
 
     response = requests.request("GET", url=url, headers={}, data={})
 
