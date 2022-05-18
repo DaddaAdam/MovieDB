@@ -8,4 +8,5 @@ urlpatterns = [
     path('actor/<str:actor_name>/all', views.getCreditsByActor),
     path('actor/<str:actor_name>/movies', views.getMoviesByActor),
     path('actor/<str:actor_name>/tv', views.getTvShowsByActor),
+    path('movies/<str:movie_name>/', views.getMoviesByName)
 ]
