@@ -22,7 +22,7 @@ def convertActorToId(actor_name):
 @api_view(['GET'])
 def getTrending(request, category):
 
-    if category not in ('movie', 'tv', 'person'):
+    if category not in ('movie', 'tv', 'person', 'all'):
         category = 'all'
 
     url = f"https://api.themoviedb.org/3/trending/{category}/week?api_key={API_KEY}"
@@ -48,7 +48,7 @@ def getCreditsByActor(request, actor_name, category):
 
     actor_id = convertActorToId(actor_name=actor_name)
 
-    if category not in ('movie', 'tv'):
+    if category not in ('movie', 'tv', 'combined'):
         category = 'combined'
 
 
@@ -58,12 +58,17 @@ def getCreditsByActor(request, actor_name, category):
 
     return Response(response.json(), status=status.HTTP_200_OK)
 
-@api_view(['GET'])
-def getMoviesByName(request, movie_name):
-    movie_name = slugify(movie_name)
 
-    url = f"https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&language=en-US&query={movie_name}&page=1&include_adult=false"
+@api_view(['GET'])
+def getMultiSearch(request, query, media_type):
+    query = slugify(query)
+
+    if media_type not in ('movie', 'person', 'tv', 'multi'):
+        media_type = 'multi'
+
+    url = f'https://api.themoviedb.org/3/search/{media_type}?api_key={API_KEY}&language=en-US&query={query}&page=1&include_adult=false'
 
     response = requests.request("GET", url=url, headers={}, data={})
 
     return Response(response.json(), status=status.HTTP_200_OK)
+

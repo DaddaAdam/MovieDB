@@ -5,5 +5,5 @@ urlpatterns = [
     path('trending/<str:category>/', views.getTrending),
     path('actor/<str:actor_name>/', views.getActorByName),
     path('actor/<str:actor_name>/<str:category>/', views.getCreditsByActor),
-    path('movies/<str:movie_name>/', views.getMoviesByName)
+    path('search/<str:media_type>/<str:query>/', views.getMultiSearch),
 ]
