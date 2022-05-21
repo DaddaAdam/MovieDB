@@ -72,3 +72,16 @@ def getMultiSearch(request, query, media_type):
 
     return Response(response.json(), status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def getMediaRecommendations(request, media_type, id):
+    
+    if (not isinstance(id, int)) or media_type not in ('movie', 'tv'):
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    url = f'https://api.themoviedb.org/3/{media_type}/{id}/recommendations?api_key={API_KEY}&language=en-US'
+
+    response = requests.request("GET", url=url, headers={}, data={})
+
+    return Response(response.json(), status=status.HTTP_200_OK)
+
+    
