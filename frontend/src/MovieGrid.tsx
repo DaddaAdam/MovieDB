@@ -1,6 +1,7 @@
-import React from "react";
-import Grid from "@mui/material/Grid";
+import React, { useState } from "react";
 import { MovieCard, Movie } from "./MovieCard";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
 
 export interface JsonResponse {
   results: Array<Movie>;
@@ -8,25 +9,35 @@ export interface JsonResponse {
 }
 
 export const MovieGrid = (props: JsonResponse) => {
+  const [textValue, setTextValue] = useState<string>("");
   return (
-    <Grid
-      container
-      spacing={10}
-      justifyContent="space-between"
-      direction="column"
-      alignItems="center"
-    >
-      {props.results
-        .filter((element, idx) => idx < props.results.length / 2)
-        .map((element) => (
-          <MovieCard
-            id={element.id}
-            poster_path={element.poster_path}
-            original_title={element.original_title}
-            overview={element.overview}
-            release_date={element.release_date}
-          />
-        ))}
-    </Grid>
+    <>
+      <Grid
+        container
+        spacing={10}
+        justifyContent="space-evenly"
+        alignItems="center"
+      >
+        {props.results
+          .filter((element, idx) => idx < props.results.length / 2)
+          .map((element) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              sx={{ marginTop: "20px", marginRight: -6 }}
+            >
+              <MovieCard
+                id={element.id}
+                poster_path={element.poster_path}
+                original_title={element.original_title}
+                overview={element.overview}
+                release_date={element.release_date}
+              />
+            </Grid>
+          ))}
+      </Grid>
+    </>
   );
 };
