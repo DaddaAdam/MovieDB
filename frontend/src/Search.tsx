@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MovieGrid, JsonResponse } from "./MovieGrid";
+import { MediaGrid, JsonResponse } from "./MediaGrid";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -20,17 +20,14 @@ export const Search = () => {
 
   useEffect(() => {
     issueNewResearchQuery();
-  });
+  }, [selectValue, textValue]);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextValue(e.target.value);
-
-    setTimeout(issueNewResearchQuery, 500);
   };
 
   const handleSelectChange = (e: SelectChangeEvent) => {
     setSelectValue(e.target.value as string);
-    setTimeout(issueNewResearchQuery, 500);
   };
 
   return (
@@ -57,8 +54,8 @@ export const Search = () => {
           <MenuItem value={"person"}>People</MenuItem>
         </Select>
       </Grid>
-      {typeof results != "undefined" && (
-        <MovieGrid
+      {(typeof results != "undefined" && results.total_results!) > 0 && (
+        <MediaGrid
           results={results!.results}
           total_results={results!.total_results}
           media_type={selectValue}

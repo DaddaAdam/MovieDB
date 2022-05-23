@@ -39,7 +39,9 @@ export const MovieCard = ({
           {original_title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {overview.substring(0, 170) + "..."}
+          {typeof overview != "undefined"
+            ? overview.substring(0, 170) + "..."
+            : ""}
         </Typography>
       </CardContent>
       <CardActions>

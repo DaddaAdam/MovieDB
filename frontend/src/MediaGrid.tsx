@@ -9,7 +9,7 @@ export interface JsonResponse {
   media_type?: string;
 }
 
-export const MovieGrid = (props: JsonResponse) => {
+export const MediaGrid = (props: JsonResponse) => {
   const isPerson = props.media_type === "person";
   const isAny: Boolean = Boolean(props.results[0].media_type);
   return (

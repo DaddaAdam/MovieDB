@@ -51,7 +51,6 @@ def getCreditsByActor(request, actor_name, category):
     if category not in ('movie', 'tv', 'combined'):
         category = 'combined'
 
-
     url = f"https://api.themoviedb.org/3/person/{actor_id}/{category}_credits?sort_by=popularity.desc&api_key={API_KEY}&language=en-US"
 
     response = requests.request("GET", url=url, headers={}, data={})
@@ -69,6 +68,10 @@ def getMultiSearch(request, query, media_type):
     url = f'https://api.themoviedb.org/3/search/{media_type}?api_key={API_KEY}&language=en-US&query={query}&page=1&include_adult=false'
 
     response = requests.request("GET", url=url, headers={}, data={})
+
+    if '"total_results: 0"' in str(response.content) :
+        return Response(response.json(), status=status.HTTP_400_BAD_REQUEST)
+
 
     return Response(response.json(), status=status.HTTP_200_OK)
 
