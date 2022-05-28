@@ -29,7 +29,7 @@ export const MediaGrid = (props: JsonResponse) => {
               xs={12}
               sm={6}
               md={4}
-              sx={{ marginTop: "20px", marginRight: -30 }}
+              sx={{ marginTop: "20px", marginRight: -31 }}
             >
               {isPerson || (isAny && element.media_type === "person") ? (
                 element.known_for_department &&

@@ -8,6 +8,7 @@ import { ResetPasswordConfirm } from "./containers/ResetPasswordConfirm";
 import { Activate } from "./containers/Activate";
 import { Search } from "./containers/Search";
 import { Trending } from "./containers/Trending";
+import { MediaDetails } from "./containers/MediaDetails";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/activate" element={<Activate />} />
             <Route path="/search" element={<Search />} />
             <Route path="/trending" element={<Trending />} />
+            <Route path="/movie/:id" element={<MediaDetails />} />
           </Routes>
         </Router>
       </header>
