@@ -26,6 +26,8 @@ export const MovieCard = ({
   poster_path,
   overview,
   release_date,
+  media_type,
+  name,
 }: Movie) => {
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -36,7 +38,7 @@ export const MovieCard = ({
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {original_title}
+          {media_type == "movie" ? original_title : name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {typeof overview != "undefined"

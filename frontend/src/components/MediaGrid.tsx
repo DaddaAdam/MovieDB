@@ -16,19 +16,20 @@ export const MediaGrid = (props: JsonResponse) => {
     <>
       <Grid
         container
-        spacing={10}
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 4, sm: 8, md: 12 }}
         justifyContent="space-evenly"
         alignItems="center"
       >
         {props.results
-          .filter((element, idx) => idx < props.results.length / 2)
+          // .filter((element, idx) => idx < props.results.length / 2)
           .map((element) => (
             <Grid
               item
               xs={12}
               sm={6}
               md={4}
-              sx={{ marginTop: "20px", marginRight: -6 }}
+              sx={{ marginTop: "20px", marginRight: -30 }}
             >
               {isPerson || (isAny && element.media_type === "person") ? (
                 element.known_for_department &&
@@ -50,6 +51,8 @@ export const MediaGrid = (props: JsonResponse) => {
                   original_title={element.original_title}
                   overview={element.overview}
                   release_date={element.release_date}
+                  media_type={element.media_type}
+                  name={element.name}
                 />
               )}
             </Grid>
