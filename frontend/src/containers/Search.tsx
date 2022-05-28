@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { Layout } from "../hocs/Layout";
 
 export const Search = () => {
   const [results, setResults] = useState<JsonResponse>();
@@ -20,6 +21,7 @@ export const Search = () => {
 
   useEffect(() => {
     issueNewResearchQuery();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectValue, textValue]);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,36 +33,38 @@ export const Search = () => {
   };
 
   return (
-    <div>
-      <Grid container justifyContent="space-evenly" alignItems="center">
-        <TextField
-          value={textValue}
-          fullWidth
-          onChange={handleTextChange}
-          label="Rechercher"
-          id="fullWidth"
-          sx={{ m: 2 }}
-        />
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={selectValue}
-          label="Category"
-          onChange={handleSelectChange}
-        >
-          <MenuItem value={"all"}>Any</MenuItem>
-          <MenuItem value={"movie"}>Movie</MenuItem>
-          <MenuItem value={"tv"}>TV Show</MenuItem>
-          <MenuItem value={"person"}>People</MenuItem>
-        </Select>
-      </Grid>
-      {(typeof results != "undefined" && results.total_results!) > 0 && (
-        <MediaGrid
-          results={results!.results}
-          total_results={results!.total_results}
-          media_type={selectValue}
-        />
-      )}
-    </div>
+    <Layout>
+      <div>
+        <Grid container justifyContent="space-evenly" alignItems="center">
+          <TextField
+            value={textValue}
+            fullWidth
+            onChange={handleTextChange}
+            label="Rechercher"
+            id="fullWidth"
+            sx={{ m: 2 }}
+          />
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={selectValue}
+            label="Category"
+            onChange={handleSelectChange}
+          >
+            <MenuItem value={"all"}>Any</MenuItem>
+            <MenuItem value={"movie"}>Movie</MenuItem>
+            <MenuItem value={"tv"}>TV Show</MenuItem>
+            <MenuItem value={"person"}>People</MenuItem>
+          </Select>
+        </Grid>
+        {(typeof results != "undefined" && results.total_results!) > 0 && (
+          <MediaGrid
+            results={results!.results}
+            total_results={results!.total_results}
+            media_type={selectValue}
+          />
+        )}
+      </div>
+    </Layout>
   );
 };

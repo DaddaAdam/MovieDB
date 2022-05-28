@@ -23,7 +23,12 @@ export const NavBar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             MovieDB
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" href="/signup">
+            Sign Up
+          </Button>
+          <Button color="inherit" href="/login">
+            Login
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
