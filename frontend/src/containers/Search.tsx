@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MediaGrid, JsonResponse } from "./MediaGrid";
+import { MediaGrid, JsonResponse } from "../components/MediaGrid";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
