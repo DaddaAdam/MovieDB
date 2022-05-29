@@ -50,7 +50,11 @@ export const NavBar = () => {
                 Popular
               </Button>
             </MenuItem>
-            <MenuItem onClick={handleClose}>Search</MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Button color="inherit" href="/search">
+                Search
+              </Button>
+            </MenuItem>
           </Menu>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             MovieDB

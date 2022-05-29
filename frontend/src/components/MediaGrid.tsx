@@ -2,6 +2,7 @@ import React from "react";
 import { MovieCard, Movie } from "./MovieCard";
 import Grid from "@mui/material/Grid";
 import { PersonCard } from "./PersonCard";
+import { Response } from "../containers/MediaDetails";
 
 export interface JsonResponse {
   results: Array<Movie>;

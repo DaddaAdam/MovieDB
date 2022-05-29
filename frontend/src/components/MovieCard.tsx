@@ -38,7 +38,7 @@ export const MovieCard = ({
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {media_type == "movie" ? original_title : name}
+          {media_type === "movie" ? original_title : name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {typeof overview != "undefined"
@@ -47,8 +47,9 @@ export const MovieCard = ({
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+        <Button size="small" href={`/${media_type}/${id}`}>
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   );

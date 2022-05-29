@@ -8,27 +8,34 @@ import { MovieCard } from "../components/MovieCard";
 export interface Response {
   adult: boolean;
   backdrop_path: string;
-  belongs_to_collection: BelongsToCollection;
-  budget: number;
+  created_by: CreatedBy[];
+  episode_run_time: number[];
+  first_air_date: Date;
   genres: Genre[];
   homepage: string;
   id: number;
-  imdb_id: string;
+  in_production: boolean;
+  languages: OriginalLanguage[];
+  last_air_date: Date;
+  last_episode_to_air: TEpisodeToAir;
+  name: string;
+  next_episode_to_air: TEpisodeToAir;
+  networks: Network[];
+  number_of_episodes: number;
+  number_of_seasons: number;
+  origin_country: OriginCountry[];
   original_language: OriginalLanguage;
-  original_title: string;
+  original_name: string;
   overview: string;
   popularity: number;
   poster_path: string;
-  production_companies: ProductionCompany[];
+  production_companies: Network[];
   production_countries: ProductionCountry[];
-  release_date: Date;
-  revenue: number;
-  runtime: number;
+  seasons: Season[];
   spoken_languages: SpokenLanguage[];
   status: string;
   tagline: string;
-  title: string;
-  video: boolean;
+  type: string;
   vote_average: number;
   vote_count: number;
   videos: Videos;
@@ -36,11 +43,12 @@ export interface Response {
   recommendations: Recommendations;
 }
 
-export interface BelongsToCollection {
+export interface CreatedBy {
   id: number;
+  credit_id: string;
   name: string;
-  poster_path: string;
-  backdrop_path: string;
+  gender: number;
+  profile_path: string;
 }
 
 export interface Credits {
@@ -57,7 +65,6 @@ export interface Cast {
   original_name: string;
   popularity: number;
   profile_path: null | string;
-  cast_id?: number;
   character?: string;
   credit_id: string;
   order?: number;
@@ -68,15 +75,8 @@ export interface Cast {
 export enum Department {
   Acting = "Acting",
   Art = "Art",
-  Camera = "Camera",
-  CostumeMakeUp = "Costume & Make-Up",
-  Crew = "Crew",
-  Directing = "Directing",
-  Editing = "Editing",
-  Lighting = "Lighting",
   Production = "Production",
   Sound = "Sound",
-  VisualEffects = "Visual Effects",
   Writing = "Writing",
 }
 
@@ -86,17 +86,34 @@ export interface Genre {
 }
 
 export enum OriginalLanguage {
+  De = "de",
   En = "en",
 }
 
-export interface ProductionCompany {
+export interface TEpisodeToAir {
+  air_date: Date;
+  episode_number: number;
   id: number;
-  logo_path: string;
   name: string;
-  origin_country: OriginCountry;
+  overview: string;
+  production_code: string;
+  runtime: number;
+  season_number: number;
+  still_path: null | string;
+  vote_average: number;
+  vote_count: number;
+}
+
+export interface Network {
+  name: string;
+  id: number;
+  logo_path: null | string;
+  origin_country: string;
 }
 
 export enum OriginCountry {
+  De = "DE",
+  Gb = "GB",
   Us = "US",
 }
 
@@ -118,25 +135,35 @@ export interface RecommendationsResult {
   genre_ids: number[];
   id: number;
   media_type: MediaType;
-  title: string;
+  name: string;
+  origin_country: OriginCountry[];
   original_language: OriginalLanguage;
-  original_title: string;
+  original_name: string;
   overview: string;
   popularity: number;
   poster_path: string;
-  release_date: Date;
-  video: boolean;
+  first_air_date: Date;
   vote_average: number;
   vote_count: number;
 }
 
 export enum MediaType {
-  Movie = "movie",
+  Tv = "tv",
+}
+
+export interface Season {
+  air_date: Date;
+  episode_count: number;
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  season_number: number;
 }
 
 export interface SpokenLanguage {
   english_name: string;
-  iso_639_1: string;
+  iso_639_1: OriginalLanguage;
   name: string;
 }
 
@@ -149,28 +176,15 @@ export interface VideosResult {
   iso_3166_1: OriginCountry;
   name: string;
   key: string;
-  site: Site;
+  site: string;
   size: number;
-  type: Type;
+  type: string;
   official: boolean;
   published_at: Date;
   id: string;
 }
 
-export enum Site {
-  YouTube = "YouTube",
-}
-
-export enum Type {
-  BehindTheScenes = "Behind the Scenes",
-  Bloopers = "Bloopers",
-  Clip = "Clip",
-  Featurette = "Featurette",
-  Teaser = "Teaser",
-  Trailer = "Trailer",
-}
-
-export const MediaDetails = () => {
+export const TvDetails = () => {
   const [results, setResults] = useState<Response>();
   let { id } = useParams();
 
@@ -179,7 +193,7 @@ export const MediaDetails = () => {
   }, []);
 
   const issueNewResearchQuery = async () => {
-    const res = await fetch(`/imdb/details/${id}/movie/`);
+    const res = await fetch(`/imdb/details/${id}/tv/`);
     const data = await res.json();
     setResults(data);
   };
@@ -194,23 +208,37 @@ export const MediaDetails = () => {
           />
         </Grid>
         <Grid item xs={7} justifyContent="flex-start" alignItems="flex-start">
-          <Typography variant="h2">{results?.original_title!} </Typography>
+          <Typography variant="h2">{results?.original_name!} </Typography>
           <Typography variant="body1">{results?.overview!}</Typography>
           <Typography variant="body1">
-            <Typography variant="h4">Budget:</Typography>
-            {Intl.NumberFormat("en-US").format(results?.budget!)} USD
-          </Typography>
-          <Typography variant="body1">
             <Typography variant="h4">Produced by:</Typography>
-            {results?.production_companies[0].name!}
-          </Typography>
-          <Typography variant="body1">
-            <Typography variant="h4">Release date:</Typography>
-            {results?.release_date.toLocaleString()}
+            {typeof results?.production_companies !== "undefined"
+              ? results?.production_companies[0].name!
+              : "N/A"}
           </Typography>
           <Typography variant="body1">
             <Typography variant="h4">Score:</Typography>
             {results?.vote_average!}/10
+          </Typography>
+          <Typography variant="body1">
+            <Typography variant="h4">Number of seasons:</Typography>
+            {results?.number_of_seasons!}
+          </Typography>
+          <Typography variant="body1">
+            <Typography variant="h4">Number of episodes:</Typography>
+            {results?.number_of_episodes!}
+          </Typography>
+          <Typography variant="body1">
+            <Typography variant="h4">Started on:</Typography>
+            {results?.first_air_date.toLocaleString()}
+          </Typography>
+          <Typography variant="body1">
+            <Typography variant="h4">Last episode released on:</Typography>
+            {results?.last_episode_to_air.air_date.toLocaleString()}
+          </Typography>
+          <Typography variant="body1">
+            <Typography variant="h4">Status:</Typography>
+            {results?.status!}
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -230,7 +258,7 @@ export const MediaDetails = () => {
                 <PersonCard
                   id={element.id!}
                   known_for_department={element.known_for_department!}
-                  name={element.name!}
+                  name={element.name ? element.name : "N/A"}
                   profile_path={element.profile_path!}
                 />
               </Grid>
@@ -252,11 +280,11 @@ export const MediaDetails = () => {
               >
                 <MovieCard
                   id={element.id!}
-                  original_title={element.original_title!}
+                  original_title={element.original_name!}
                   overview={element.overview!}
                   poster_path={element.poster_path!}
-                  release_date={element.release_date.toLocaleString()!}
-                  media_type="movie"
+                  release_date=""
+                  media_type="tv"
                 />
               </Grid>
             );

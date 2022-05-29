@@ -9,6 +9,7 @@ import { Activate } from "./containers/Activate";
 import { Search } from "./containers/Search";
 import { Trending } from "./containers/Trending";
 import { MediaDetails } from "./containers/MediaDetails";
+import { TvDetails } from "./containers/TvDetails";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/trending" element={<Trending />} />
             <Route path="/movie/:id" element={<MediaDetails />} />
+            <Route path="/tv/:id" element={<TvDetails />} />
           </Routes>
         </Router>
       </header>
