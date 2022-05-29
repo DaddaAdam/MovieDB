@@ -97,3 +97,13 @@ def getMediaDetails(request, media_type, id):
     response = requests.request("GET", url=url, headers={}, data={})
 
     return Response(response.json(), status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def getPersonDetails(request, id):
+  
+    url = f'https://api.themoviedb.org/3/person/{id}?api_key={API_KEY}&language=en-US&append_to_response=combined_credits'
+
+    response = requests.request("GET", url=url, headers={}, data={})
+
+    return Response(response.json(), status=status.HTTP_200_OK)

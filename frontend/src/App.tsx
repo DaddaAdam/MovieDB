@@ -10,6 +10,7 @@ import { Search } from "./containers/Search";
 import { Trending } from "./containers/Trending";
 import { MediaDetails } from "./containers/MediaDetails";
 import { TvDetails } from "./containers/TvDetails";
+import { PersonDetails } from "./containers/PersonDetails";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/trending" element={<Trending />} />
             <Route path="/movie/:id" element={<MediaDetails />} />
             <Route path="/tv/:id" element={<TvDetails />} />
+            <Route path="/person/:id" element={<PersonDetails />} />
           </Routes>
         </Router>
       </header>

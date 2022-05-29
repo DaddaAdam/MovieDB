@@ -8,4 +8,5 @@ urlpatterns = [
     path('search/<str:media_type>/<str:query>/', views.getMultiSearch),
     path('recommendations/<int:id>/<str:media_type>/', views.getMediaRecommendations),
     path('details/<int:id>/<str:media_type>/', views.getMediaDetails),
+    path('details/person/<int:id>/', views.getPersonDetails),
 ]

@@ -205,6 +205,9 @@ export const TvDetails = () => {
           <img
             src={`https://image.tmdb.org/t/p/original${results?.poster_path!}`}
             width="75%"
+            style={{
+              maxWidth: "500px",
+            }}
           />
         </Grid>
         <Grid item xs={7} justifyContent="flex-start" alignItems="flex-start">
