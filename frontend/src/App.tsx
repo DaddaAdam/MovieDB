@@ -20,12 +20,12 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route
-              path="/resetpasswordconfirm"
+              path="/password/reset/confirm/:uid/:token"
               element={<ResetPasswordConfirm />}
             />
-            <Route path="/activate" element={<Activate />} />
+            <Route path="/activate/:uid/:token" element={<Activate />} />
             <Route path="/search" element={<Search />} />
             <Route path="/trending" element={<Trending />} />
             <Route path="/movie/:id" element={<MediaDetails />} />
