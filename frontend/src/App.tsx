@@ -1,6 +1,11 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { Login } from "./containers/Login";
 import { Signup } from "./containers/Signup";
 import { ResetPassword } from "./containers/ResetPassword";
@@ -18,8 +23,26 @@ function App() {
       <header className="App-header">
         <Router>
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route
+              path="/login"
+              element={
+                !localStorage.getItem("access") ? (
+                  <Login />
+                ) : (
+                  <Navigate to="/search" />
+                )
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                !localStorage.getItem("access") ? (
+                  <Signup />
+                ) : (
+                  <Navigate to="/search" />
+                )
+              }
+            />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route
               path="/password/reset/confirm/:uid/:token"
@@ -27,6 +50,7 @@ function App() {
             />
             <Route path="/activate/:uid/:token" element={<Activate />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/*" element={<Search />} />
             <Route path="/trending" element={<Trending />} />
             <Route path="/movie/:id" element={<MediaDetails />} />
             <Route path="/tv/:id" element={<TvDetails />} />

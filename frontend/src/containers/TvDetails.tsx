@@ -249,7 +249,7 @@ export const TvDetails = () => {
         </Grid>
         {results?.credits.cast
           .filter((element, idx) => idx < 10)
-          .map((element) => {
+          .map(element => {
             return (
               <Grid
                 item
@@ -272,7 +272,7 @@ export const TvDetails = () => {
         </Grid>
         {results?.recommendations.results
           .filter((element, idx) => idx < 10)
-          .map((element) => {
+          .map(element => {
             return (
               <Grid
                 item

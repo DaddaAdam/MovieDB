@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -11,15 +11,47 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Layout } from "../hocs/Layout";
+import axios from "axios";
+
+const loginRequest = async (email: string, password: string) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ email, password });
+
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/auth/jwt/create/`,
+      body,
+      config
+    );
+    console.log(res.data);
+    localStorage.setItem("access", res.data.access);
+    localStorage.setItem("refresh", res.data.refresh);
+  } catch (err) {
+    if (!err?.response) {
+      alert("ERROR: Server not responding!");
+    } else if (err?.response?.status === 401) {
+      alert("ERROR: No active account found with the given credentials!");
+    } else if (err?.response?.status === 400) {
+      alert("ERROR: Make sure to fill both the Email and Password fields.");
+    } else {
+      alert("ERROR: Login failed");
+    }
+  }
+};
 
 export const Login = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const email = data.get("email").toString();
+    const password = data.get("password").toString();
+    loginRequest(email, password);
+    console.log("submitted form");
   };
 
   return (
@@ -55,6 +87,7 @@ export const Login = () => {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                aria-required
               />
               <TextField
                 margin="normal"
@@ -65,6 +98,7 @@ export const Login = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                aria-required
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
