@@ -88,6 +88,7 @@ export const NavBar = () => {
               onClick={() => {
                 localStorage.removeItem("access");
                 localStorage.removeItem("refresh");
+                localStorage.removeItem("email");
                 setIsAuthenticated(false);
                 window.location.href = "/login";
               }}

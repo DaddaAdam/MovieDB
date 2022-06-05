@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -12,40 +12,44 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Layout } from "../hocs/Layout";
 import axios from "axios";
-
-const loginRequest = async (email: string, password: string) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
-  const body = JSON.stringify({ email, password });
-
-  try {
-    const res = await axios.post(
-      `${process.env.REACT_APP_API_URL}/auth/jwt/create/`,
-      body,
-      config
-    );
-    console.log(res.data);
-    localStorage.setItem("access", res.data.access);
-    localStorage.setItem("refresh", res.data.refresh);
-    window.location.href = "/login";
-  } catch (err) {
-    if (!err?.response) {
-      alert("ERROR: Server not responding!");
-    } else if (err?.response?.status === 401) {
-      alert("ERROR: No active account found with the given credentials!");
-    } else if (err?.response?.status === 400) {
-      alert("ERROR: Make sure to fill both the Email and Password fields.");
-    } else {
-      alert("ERROR: Login failed");
-    }
-  }
-};
+import { UserContext } from "../components/userContext";
+import { Response, Fields } from "./Account";
 
 export const Login = () => {
+  const { user, setUser } = useContext(UserContext);
+  const loginRequest = async (email: string, password: string) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const body = JSON.stringify({ email, password });
+
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/auth/jwt/create/`,
+        body,
+        config
+      );
+      console.log(res.data);
+      localStorage.setItem("email", email);
+
+      localStorage.setItem("access", res.data.access);
+      localStorage.setItem("refresh", res.data.refresh);
+      window.location.href = "/login";
+    } catch (err) {
+      if (!err?.response) {
+        alert("ERROR: Server not responding!");
+      } else if (err?.response?.status === 401) {
+        alert("ERROR: No active account found with the given credentials!");
+      } else if (err?.response?.status === 400) {
+        alert("ERROR: Make sure to fill both the Email and Password fields.");
+      } else {
+        alert("ERROR: Login failed");
+      }
+    }
+  };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'djoser',
     'api.apps.ApiConfig',
     'imdb.apps.ImdbConfig', 
-    'accounts',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [

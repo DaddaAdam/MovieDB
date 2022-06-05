@@ -24,6 +24,7 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
     path('api/', include('api.urls')),
     path('imdb/', include('imdb.urls')),
+    path('accounts/', include('accounts.urls')),
 ]
 
 urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
