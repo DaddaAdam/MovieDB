@@ -8,11 +8,14 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { UserContext } from "../components/userContext";
 
 export const NavBar = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [isAuthenticated, setIsAuthenticated] = React.useState<Boolean>(false);
+
+  const { user, setUser } = React.useContext(UserContext);
 
   React.useEffect(() => {
     setIsAuthenticated(Boolean(!localStorage.getItem("access")));
@@ -90,6 +93,7 @@ export const NavBar = () => {
                 localStorage.removeItem("refresh");
                 localStorage.removeItem("email");
                 setIsAuthenticated(false);
+                setUser(null);
                 window.location.href = "/login";
               }}
             >

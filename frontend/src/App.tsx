@@ -19,6 +19,7 @@ import { PersonDetails } from "./containers/PersonDetails";
 import { Account, Response, Fields } from "./containers/Account";
 import { UserContext } from "./components/userContext";
 import { Layout } from "./hocs/Layout";
+import { ForgotPassword } from "./containers/ForgotPassword";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -81,6 +82,7 @@ function App() {
               <Route path="/movie/:id" element={<MediaDetails />} />
               <Route path="/tv/:id" element={<TvDetails />} />
               <Route path="/person/:id" element={<PersonDetails />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
             </Routes>
           </UserContext.Provider>
         </Router>

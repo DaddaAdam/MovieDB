@@ -32,6 +32,9 @@ const signupRequest = async (
       config
     );
     console.log(res.data);
+    alert(
+      "You gave successfully signed up! Make sure to check your email for activation."
+    );
     window.location.href = "/login";
   } catch (err) {
     if (!err?.response) {

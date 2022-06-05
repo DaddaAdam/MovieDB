@@ -12,17 +12,20 @@ export const Layout = (props: props) => {
   const [userInfo, setUserInfo] = useState();
 
   const getUserInfo = async () => {
-    const res = await fetch(
-      `${
-        process.env.REACT_APP_API_URL
-      }/accounts/get-user-details/${localStorage.getItem("email")}/`
-    );
-    const data = await res.json();
-    setUserInfo(data);
-    setUser(data);
+    if (!user) {
+      const res = await fetch(
+        `${
+          process.env.REACT_APP_API_URL
+        }/accounts/get-user-details/${localStorage.getItem("email")}/`
+      );
+      const data = await res.json();
+      setUserInfo(data);
+      setUser(data);
+      console.log(data);
+    }
   };
   useEffect(() => {
-    if (!user) getUserInfo();
+    getUserInfo();
   });
 
   return (

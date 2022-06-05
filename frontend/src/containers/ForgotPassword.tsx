@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -12,49 +11,40 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Layout } from "../hocs/Layout";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import { UserContext } from "../components/userContext";
 
-export const ResetPasswordConfirm = () => {
-  const { uid, token } = useParams();
-  const ResetPasswordRequest = async (
-    new_password: string,
-    re_new_password: string
-  ) => {
+export const ForgotPassword = () => {
+  const resetPassword = async (email: String) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
 
-    const body = JSON.stringify({ uid, token, new_password, re_new_password });
-
+    const body = JSON.stringify({ email });
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/users/reset_password_confirm/`,
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/auth/users/reset_password/`,
         body,
         config
       );
-      alert("Your password has successfully been reset, you may now log in!");
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
+      localStorage.removeItem("email");
+      alert("An email has been sent to you");
       window.location.href = "/login";
     } catch (err) {
-      if (err?.response?.status === 400) {
-        alert("ERROR: Make sure your password matches and is a valid one!!");
-      }
+      console.log(err);
     }
   };
 
-  const { user, setUser } = useContext(UserContext);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    const password = data.get("password").toString();
-    const re_password = data.get("re_password").toString();
+    const email = data.get("email").toString();
 
-    ResetPasswordRequest(password, re_password);
+    resetPassword(email);
   };
-
   return (
     <Layout>
       <Container component="main">
@@ -70,7 +60,7 @@ export const ResetPasswordConfirm = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Please enter your email adress
           </Typography>
           <Box
             component="form"
@@ -82,30 +72,13 @@ export const ResetPasswordConfirm = () => {
               <TextField
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="re_password"
-                label="Confirm Password"
-                type="password"
-                id="re_password"
-                autoComplete="new-password"
-              />
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
               Confirm
             </Button>
           </Box>
