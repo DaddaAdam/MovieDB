@@ -32,7 +32,7 @@ export const Activate = () => {
 
   setTimeout(() => {
     setReditect(true);
-  }, 2000);
+  }, 5000);
 
   return (
     <Layout>

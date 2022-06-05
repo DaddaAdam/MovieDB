@@ -31,6 +31,7 @@ const loginRequest = async (email: string, password: string) => {
     console.log(res.data);
     localStorage.setItem("access", res.data.access);
     localStorage.setItem("refresh", res.data.refresh);
+    window.location.href = "/login";
   } catch (err) {
     if (!err?.response) {
       alert("ERROR: Server not responding!");

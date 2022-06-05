@@ -211,11 +211,15 @@ export const TvDetails = () => {
           />
         </Grid>
         <Grid item xs={7} justifyContent="flex-start" alignItems="flex-start">
-          <Typography variant="h2">{results?.original_name!} </Typography>
+          <Typography variant="h2">
+            {typeof results?.original_name !== "undefined"
+              ? results?.original_name!
+              : "N/A"}{" "}
+          </Typography>
           <Typography variant="body1">{results?.overview!}</Typography>
           <Typography variant="body1">
             <Typography variant="h4">Produced by:</Typography>
-            {typeof results?.production_companies !== "undefined"
+            {typeof results?.production_companies[0] !== "undefined"
               ? results?.production_companies[0].name!
               : "N/A"}
           </Typography>

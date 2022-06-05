@@ -49,8 +49,26 @@ function App() {
               element={<ResetPasswordConfirm />}
             />
             <Route path="/activate/:uid/:token" element={<Activate />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/*" element={<Search />} />
+            <Route
+              path="/search"
+              element={
+                !localStorage.getItem("access") ? (
+                  <Navigate to="/login" />
+                ) : (
+                  <Search />
+                )
+              }
+            />
+            <Route
+              path="/*"
+              element={
+                !localStorage.getItem("access") ? (
+                  <Navigate to="/login" />
+                ) : (
+                  <Search />
+                )
+              }
+            />
             <Route path="/trending" element={<Trending />} />
             <Route path="/movie/:id" element={<MediaDetails />} />
             <Route path="/tv/:id" element={<TvDetails />} />

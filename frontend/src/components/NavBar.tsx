@@ -12,6 +12,12 @@ import MenuItem from "@mui/material/MenuItem";
 export const NavBar = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [isAuthenticated, setIsAuthenticated] = React.useState<Boolean>(false);
+
+  React.useEffect(() => {
+    setIsAuthenticated(Boolean(!localStorage.getItem("access")));
+  }, [isAuthenticated]);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -44,7 +50,15 @@ export const NavBar = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleClose}>In Theatres</MenuItem>
+            {!isAuthenticated ? (
+              <MenuItem onClick={handleClose}>
+                <Button color="inherit" href="/login">
+                  Account
+                </Button>
+              </MenuItem>
+            ) : (
+              <></>
+            )}
             <MenuItem onClick={handleClose}>
               <Button color="inherit" href="/trending">
                 Popular
@@ -59,12 +73,28 @@ export const NavBar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             MovieDB
           </Typography>
-          <Button color="inherit" href="/signup">
-            Sign Up
-          </Button>
-          <Button color="inherit" href="/login">
-            Login
-          </Button>
+          {isAuthenticated ? (
+            <>
+              <Button color="inherit" href="/signup">
+                Sign Up
+              </Button>
+              <Button color="inherit" href="/login">
+                Login
+              </Button>
+            </>
+          ) : (
+            <Button
+              color="inherit"
+              onClick={() => {
+                localStorage.removeItem("access");
+                localStorage.removeItem("refresh");
+                setIsAuthenticated(false);
+                window.location.href = "/login";
+              }}
+            >
+              Logout
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
