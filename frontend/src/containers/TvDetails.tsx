@@ -205,6 +205,11 @@ export const TvDetails = () => {
           <img
             src={`https://image.tmdb.org/t/p/original${results?.poster_path!}`}
             width="75%"
+            alt={
+              typeof results?.original_name !== "undefined"
+                ? results?.original_name!
+                : "N/A"
+            }
             style={{
               maxWidth: "500px",
             }}

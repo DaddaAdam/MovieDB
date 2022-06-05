@@ -16,6 +16,7 @@ import { Trending } from "./containers/Trending";
 import { MediaDetails } from "./containers/MediaDetails";
 import { TvDetails } from "./containers/TvDetails";
 import { PersonDetails } from "./containers/PersonDetails";
+import { Account } from "./containers/Account";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
                 )
               }
             />
+            <Route path="/account" element={<Account />} />
             <Route
               path="/signup"
               element={
@@ -59,6 +61,7 @@ function App() {
                 )
               }
             />
+
             <Route
               path="/*"
               element={

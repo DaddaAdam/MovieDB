@@ -52,7 +52,7 @@ export const NavBar = () => {
           >
             {!isAuthenticated ? (
               <MenuItem onClick={handleClose}>
-                <Button color="inherit" href="/login">
+                <Button color="inherit" href="/account">
                   Account
                 </Button>
               </MenuItem>
